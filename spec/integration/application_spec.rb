@@ -35,14 +35,15 @@ describe Application do
   let(:app) { Application.new }
 
   context "GET /albums" do
-    xit 'should return the list of albums' do
+    it 'should return the list of albums as HTML page with links' do
       # Assuming the post with id 1 exists.
       response = get('albums')
 
-      expected_response = 'Doolittle, Surfer Rosa, Super Trouper, Bossanova'
-
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include('Title: <a href="/albums/1"> Doolittle</a>')
+      expect(response.body).to include('Released: 1989')
+      expect(response.body).to include('Title: <a href="/albums/3"> Super Trouper</a>')
+      expect(response.body).to include('Released: 1980')
     end
   end
 
@@ -50,10 +51,9 @@ describe Application do
     it 'should return the list of artsits' do
       response = get('artists')
 
-      expected_response = 'Pixies, ABBA, Taylor Swift, Nina Simone'
-
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include('<a href="/artists/1">Pixies</a>')
+      expect(response.body).to include('<a href="/artists/4">Nina Simone</a>')
     end
   end
 
@@ -70,7 +70,7 @@ describe Application do
     end
 
     context "POST /artists" do 
-      it 'should create a new artist' do 
+      xit 'should create a new artist' do 
         response = post('artists', name: 'Wild nothing', genre: 'Indie')
         expect(response.status).to eq(200)
         expect(response.body).to eq('')
@@ -83,7 +83,7 @@ describe Application do
       end
     end
 
-    context "GET /album/:id" do
+    context "GET /albums/:id" do
       it "should return info about album 1" do
         response = get('/albums/1')
   
@@ -94,8 +94,18 @@ describe Application do
       end
     end 
 
-    context "GET /album" do
-      it "should return info about list of albums" do
+    context "GET /artists/:id" do
+      it "should return info about artist 1" do
+        response = get('/artists/1')
+  
+        expect(response.status).to eq(200)
+        expect(response.body).to include('Pixies')
+        expect(response.body).to include('Genre: Rock')
+      end
+    end 
+
+    context "GET /albums" do
+      xit "should return info about list of albums" do
         response = get('/albums')
   
         expect(response.status).to eq(200)
