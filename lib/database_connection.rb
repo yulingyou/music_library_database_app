@@ -21,6 +21,10 @@ class DatabaseConnection
     else
     @connection = PG.connect({ host: '127.0.0.1', dbname: database_name })
     end
+    if ENV['DATABASE_URL'] != nil
+      @connection = PG.connect(ENV['DATABASE_URL'])
+      return
+    end
   end
 
   # This method executes an SQL query 
