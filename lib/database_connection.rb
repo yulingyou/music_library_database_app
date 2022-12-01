@@ -25,6 +25,7 @@ class DatabaseConnection
       @connection = PG.connect(ENV['DATABASE_URL'])
       return
     end
+    @connection = PG.connect({ host: '127.0.0.1', dbname: database_name })
   end
 
   # This method executes an SQL query 
