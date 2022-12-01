@@ -69,14 +69,22 @@ describe Application do
     end
   end
 
-  context 'GET /albums/new' do
+  context 'POST /artists' do
+    it 'should validate artist parameters' do
+      response = post(
+        '/artists',
+      invalid_artist_name: 'Happy',
+      another_invalid_thing: 123)
+
+      expect(response.status).to eq(400)
+    end
     it 'should return the form to add a new artist' do
       response = get('/artists/new')
 
       expect(response.status).to eq(200)
       expect(response.body).to include('<form method="POST" action="/artists">')
       expect(response.body).to include('<input type="text" name="name" />')
-      expect(response.body).to include('<input type="text" genre="genre" />')
+      expect(response.body).to include('<input type="text" name="genre" />')
     end
   end
 
@@ -84,7 +92,7 @@ describe Application do
       it 'should validate album parameters' do
         response = post(
           '/albums',
-        invalid_artist_title: 'OK Computer',
+        invalid_album_title: 'OK Computer',
         another_invalid_thing: 123)
 
         expect(response.status).to eq(400)
